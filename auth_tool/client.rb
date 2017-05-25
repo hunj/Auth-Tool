@@ -24,7 +24,7 @@ module Auth_tool
     def oauth2 config
       config[:redirect_uri] = config.delete(:callback) if config.has_key?(:callback)
       self.signet = Signet::OAuth2::Client.new(config)
-      @signet.update!(params) if @has_params
+      @signet.additional_parameters = @params if @has_params
     end
 
     ##
