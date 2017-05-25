@@ -13,6 +13,7 @@ Format for basic 3-legged OAuth entries:
     "client_credential_secret": "secret",
     "callback": "callback",
     "verifier": "verifier",
+    "oauth_version": "version",
     "params:"{
       "sample_param": "sample"
     }
@@ -20,12 +21,13 @@ Format for basic 3-legged OAuth entries:
 ```
 Parameters:
 ---
-- **api_name**: lowercase name of the API/company
-- **temporary_credential_uri**: full URL of the request token endpoint
-- **authorization_uri**: URL to redirect the user to so they can authenticate with the service
-- **token_credential_uri**: full URL of the access token endpoint
-- **client_credential_key**: Client key (ID) provided by the service's API dashboard
-- **client_credential_secret**: Client secret provided by the service's API dashboard
-- **callback**: Securable callback URL (**TODO:** update once we figure out the endpoint)
-- **verifier**: Name of the verifier key that the Auth server passes back after the user successfully authenticates with them
-- **params**: (Optional) Hash of extra parameter values that the API requests
+- **api_name**: Lowercase name of the API/company.
+- **temporary_credential_uri**: Full URL of the request token endpoint.
+- **authorization_uri**: URL to redirect the user to so they can authenticate with the service.
+- **token_credential_uri**: Full URL of the access token endpoint.
+- **client_credential_key**: Client key (ID) provided by the service's API dashboard.
+- **client_credential_secret**: Client secret provided by the service's API dashboard.
+- **callback**: Securable callback URL (**TODO:** update once we figure out the endpoint).
+- **verifier**: Name of the verifier key that the Auth server passes back after the user successfully authenticates with them.
+- **oauth_version**: Either 1 or 2 depending on the OAuth implementation of the API.
+- **params**: (Optional) Hash of extra parameter values that the API requests.
