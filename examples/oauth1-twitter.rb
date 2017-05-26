@@ -1,5 +1,5 @@
 require 'sinatra'
-require_relative 'auth_tool'
+require_relative '../auth_tool'
   client = AuthTool::get_client 'twitter'
 get '/' do
   redirect AuthTool::get_redirect_url client

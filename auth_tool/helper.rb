@@ -1,7 +1,7 @@
 require 'json'
 require 'faraday'
 
-f = File.new('client_secrets/client_secrets.json', 'r')
+f = File.new('../client_secrets/client_secrets.json', 'r')
 Client_secrets = JSON.parse(f.read).freeze
 
 module AuthTool
@@ -20,7 +20,7 @@ module AuthTool
 
     ##
     # Returns a Faraday Connetion object
-    # 
+    #
     # @param [Hash] params
     #   The additional parameters hash.
     #
