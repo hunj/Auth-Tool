@@ -47,9 +47,6 @@ module AuthTool
   # @param [AuthTool::Client] client
   #   The client containing the API information.
   #
-  # @param [String] http_method
-  #   The HTTP verb for the call.
-  #
   # @param [String] uri
   #   The API endpoint to hit.
   #
@@ -62,8 +59,8 @@ module AuthTool
   #   response = AuthTool.call(
   #     client, "get", "https://api.twitter.com/1.1/users/show.json",
   #       {:screen_name => "username"})
-  def self.call(client, http_method, uri, params = {})
-    response = client.oauth_version == 1 ? AuthTool::OAuth1.call(client, http_method, uri, params) : AuthTool::OAuth2.call(client, http_method, uri, params)
+  def self.call(client, uri, params = {})
+    response = client.oauth_version == 1 ? AuthTool::OAuth1.call(client, uri, params) : AuthTool::OAuth2.call(client, uri, params)
     return response
   end
 

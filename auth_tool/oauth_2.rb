@@ -36,9 +36,6 @@ module AuthTool
     # @param [AuthTool::Client] client
     #   The client containing the API information.
     #
-    # @param [String] http_method
-    #   The HTTP verb for the call.
-    #
     # @param [String] uri
     #   The API endpoint to hit.
     #
@@ -47,10 +44,10 @@ module AuthTool
     #
     # @return [Hash] The endpoint's response.
     #
-    def self.call(client, http_method, uri, params)
+    def self.call(client, uri, params)
       header = params.delete('header') if params.has_key? 'header'
       body = params.delete('body') if params.has_key? 'body'
-      conn = AuthTool::Helper.get_connection(http_method, params)
+      conn = AuthTool::Helper.get_connection(params)
       options = {:header => header, :body => body, :uri => uri, :connection => conn}
       response = client.signet.fetch_protected_resource(options)
       return JSON.parse(response.body)

@@ -20,15 +20,12 @@ module AuthTool
 
     ##
     # Returns a Faraday Connetion object
-    #
-    # @param [String] http_method
-    #   The HTTP verb for the API call.
-    #
+    # 
     # @param [Hash] params
     #   The additional parameters hash.
     #
     # @return [Faraday::Connection]
-    def self.get_connection(http_method, params)
+    def self.get_connection(params)
       connection = Faraday.new(:params => params)
       return connection
     end

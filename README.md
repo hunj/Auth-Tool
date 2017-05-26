@@ -1,6 +1,7 @@
 Auth_tool
 ===
 General purpose OAuth tool for API integrations. Utilizes [signet](https://github.com/google/signet).
+
 Usage
 ---
 ```

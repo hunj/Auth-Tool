@@ -7,5 +7,5 @@ end
 
 get '/callback' do
   AuthTool::receive(client, params)
-  AuthTool::call(client, "get", "https://api.twitter.com/1.1/account/settings.json")
+  AuthTool::call(client, "https://api.twitter.com/1.1/account/settings.json")
 end

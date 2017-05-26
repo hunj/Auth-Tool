@@ -7,5 +7,5 @@ end
 
 get '/callback' do
   AuthTool::receive(client, params)
-  AuthTool::call(client, "get", "https://api.github.com/user")
+  AuthTool::call(client, "https://api.github.com/user")
 end
