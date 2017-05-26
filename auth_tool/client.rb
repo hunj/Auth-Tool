@@ -1,7 +1,7 @@
 require 'signet/oauth_1/client'
 require 'signet/oauth_2/client'
 
-module Auth_tool
+module AuthTool
   class Client
     ##
     # Creates either a signet OAuth 1.0 or 2.0 client with additional params.

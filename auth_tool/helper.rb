@@ -1,9 +1,10 @@
 require 'json'
+require 'faraday'
 
 f = File.new('client_secrets/client_secrets.json', 'r')
 Client_secrets = JSON.parse(f.read).freeze
 
-module Auth_tool
+module AuthTool
   module Helper
     ##
     # Returns the configuration hash for the given API.
@@ -12,9 +13,24 @@ module Auth_tool
     #   The api you wish to authenticate against (i.e., twitter)
     #
     # @return [Hash] The configuration hash for api_name
-    def Helper.read_secrets api_name
+    def self.read_secrets api_name
       raise "API not found" unless Client_secrets.has_key?(api_name.downcase)
       return Client_secrets[api_name.downcase]
+    end
+
+    ##
+    # Returns a Faraday Connetion object
+    #
+    # @param [String] http_method
+    #   The HTTP verb for the API call.
+    #
+    # @param [Hash] params
+    #   The additional parameters hash.
+    #
+    # @return [Faraday::Connection]
+    def self.get_connection(http_method, params)
+      connection = Faraday.new(:params => params)
+      return connection
     end
   end
 end
