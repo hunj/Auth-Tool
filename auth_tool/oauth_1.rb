@@ -37,12 +37,9 @@ module AuthTool
     #
     # @param [Hash] response
     #   The response to the callback url (verification information).
-    #
-    # @TODO Make verifier receive string or symbol
     def self.receive(client, response)
-      raise "Verifier not received" if !response.has_key?('oauth_verifier')
-      verifier = response['oauth_verifier']
-      puts verifier
+      verifier = response['oauth_verifier'] if response.has_key?('oauth_verifier')
+      verifier = response[:oauth_verifier] if response.has_key?(:oauth_verifier)
       client.signet.fetch_token_credential!(:verifier => verifier)
     end
 

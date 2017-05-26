@@ -23,11 +23,9 @@ module AuthTool
     #
     # @param [Hash] response
     #   The response to the callback url (authentication token).
-    #
-    # @TODO: Make :code be able to take a string or symbol
     def self.receive(client, response)
-      raise "Missing :code parameter" if !response.has_key?("code")
-      client.signet.code = response["code"]
+      client.signet.code = response["code"] if response.has_key?("code")
+      client.signet.code = response[:code] if response.has_key?(:code)
       client.signet.fetch_access_token!
     end
 
