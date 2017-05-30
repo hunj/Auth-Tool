@@ -23,10 +23,15 @@ module AuthTool
     #
     # @param [Hash] response
     #   The response to the callback url (authentication token).
+    #
+    # @return [Hash] The access token and refresh token.
     def self.receive(client, response)
       client.signet.code = response["code"] if response.has_key?("code")
       client.signet.code = response[:code] if response.has_key?(:code)
-      client.signet.fetch_access_token!
+      credentials = {}
+      credentials[:access] = (client.signet.fetch_access_token!)["access_token"]
+      credentials[:refresh] = client.signet.refresh_token
+      return credentials
     end
 
     ##
@@ -44,11 +49,11 @@ module AuthTool
     #
     # @return [Hash] The endpoint's response.
     #
-    def self.call(client, uri, params)
+    def self.call(client,http_verb = 'get', uri, params)
       header = params.delete('header') if params.has_key? 'header'
       body = params.delete('body') if params.has_key? 'body'
       conn = AuthTool::Helper.get_connection(params)
-      options = {:header => header, :body => body, :uri => uri, :connection => conn}
+      options = {:method => http_verb, :header => header, :body => body, :uri => uri, :connection => conn}
       response = client.signet.fetch_protected_resource(options)
       return JSON.parse(response.body)
     end

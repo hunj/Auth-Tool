@@ -30,15 +30,17 @@ module AuthTool
 
   ##
   # Handles service's user authentication response delivered by the front-end.
-  # Sets the client's access_token.
+  # Sets the client's access_token and returns it.
   #
   # @param [AuthTool::Client] client
   #   The client containing the API information.
   #
   # @param [String] response
   #   The service's response to the callback url
+  #
+  # @return [Hash] Token and secret for OAuth 1 or access token and refresh token for OAuth2.
   def self.receive(client, response)
-    client.oauth_version == 1 ? AuthTool::OAuth1.receive(client, response) : AuthTool::OAuth2.receive(client,response)
+    return client.oauth_version == 1 ? AuthTool::OAuth1.receive(client, response) : AuthTool::OAuth2.receive(client,response)
   end
 
   ##
@@ -59,8 +61,8 @@ module AuthTool
   #   response = AuthTool.call(
   #     client, "get", "https://api.twitter.com/1.1/users/show.json",
   #       {:screen_name => "username"})
-  def self.call(client, uri, params = {})
-    response = client.oauth_version == 1 ? AuthTool::OAuth1.call(client, uri, params) : AuthTool::OAuth2.call(client, uri, params)
+  def self.call(client, http_verb, uri, params = {})
+    response = client.oauth_version == 1 ? AuthTool::OAuth1.call(client, http_verb, uri, params) : AuthTool::OAuth2.call(client, http_verb, uri, params)
     return response
   end
 

@@ -13,7 +13,7 @@ AuthTool::get_redirect_url client
 # receive data from front-end
 
 AuthTool::receive(client,response)
-AuthTool::call(client, "get", "https://api.example.com/endpoint", parameters)
+AuthTool::call(client, "https://api.example.com/endpoint", params)
 ```
 GET
 ---
