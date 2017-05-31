@@ -1,5 +1,6 @@
 require_relative 'client'
 require 'json'
+require 'faraday'
 
 module AuthTool
   module OAuth1
@@ -61,7 +62,7 @@ module AuthTool
     def self.call(client, http_verb = 'get', uri, params)
       header = params.delete('header') if params.has_key? 'header'
       body = params.delete('body') if params.has_key? 'body'
-      conn = AuthTool::Helper.get_connection(params)
+      conn = Faraday.new(:params => params)
       options = {:method => http_verb, :header => header, :body => body, :uri => uri, :connection => conn}
       response = client.signet.fetch_protected_resource(options)
       return JSON.parse(response.body)

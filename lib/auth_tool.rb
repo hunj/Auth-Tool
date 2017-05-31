@@ -1,5 +1,4 @@
 require_relative 'auth_tool/client'
-require_relative 'auth_tool/helper'
 require_relative 'auth_tool/oauth_1'
 require_relative 'auth_tool/oauth_2'
 
@@ -7,12 +6,13 @@ module AuthTool
   ##
   # Creates a client object for the specified API.
   #
-  # @param [String] api_name
-  #   The name of the API/company.
+  # @param [String] client_secrets
+  #   The client_secrets hash for the API
   #
   # @return [AuthTool::Client] The client.
-  def self.get_client api_name
-    client = create_client(read_config(api_name))
+  def self.get_client client_secrets
+    raise "Expected Hash, received #{client_secrets.class}" if client_secrets.class != Hash
+    client = create_client(client_secrets)
     return client
   end
 
@@ -97,14 +97,5 @@ module AuthTool
   # @return [AuthTool::Client] New client object
   def self.create_client options
     AuthTool::Client.new options
-  end
-
-  ##
-  # Gets config hash for the given API
-  #
-  # @param [String] api_name
-  #   The name of the API/Company as it appears in the database
-  def self.read_config api_name
-    AuthTool::Helper.read_secrets(api_name)
   end
 end

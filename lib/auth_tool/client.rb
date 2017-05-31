@@ -9,8 +9,11 @@ module AuthTool
     #
     # @param [Hash] options
     #   Configuration parameters for the client.
-    def initialize(options, *credentials)
+    def initialize(options, *args)
       config = options
+      credentials = args[0] if args.length == 1
+      credentials ||= {}
+      raise "Too many args" if args.length > 1
       @has_params = config.has_key?('params')
       self.oauth_version = config.delete('oauth_version')
       self.params = config.delete('params') if @has_params
@@ -21,7 +24,7 @@ module AuthTool
       elsif @oauth_version == 2
         oauth2 config
         self.signet.access_token = credentials["oauth_token"] if credentials.has_key? "oauth_token"
-        self.signet.refresh_token = credentials["refresh_token"] if credentialsl.has_key? "refresh_token" 
+        self.signet.refresh_token = credentials["refresh_token"] if credentialsl.has_key? "refresh_token"
       else
         raise "Unexpected oauth_version: #{@oauth_version}"
       end
