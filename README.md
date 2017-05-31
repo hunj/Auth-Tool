@@ -1,4 +1,4 @@
-Auth_tool
+AuthTool
 ===
 General purpose OAuth tool for API integrations. Utilizes [signet](https://github.com/google/signet).
 

@@ -1,5 +1,3 @@
-module Auth
-  module Tool
+module AuthTool
     VERSION = "0.1.0"
-  end
 end

@@ -7,10 +7,10 @@ Gem::Specification.new do |spec|
   spec.name          = "auth_tool"
   spec.version       = AuthTool::VERSION
   spec.authors       = ["David Fan"]
-  spec.email         = ["dfan14051@gmail.com"]
+  spec.email         = ["david.fan@securable.io"]
 
   spec.summary       = %q{General Purpose OAuth Tool}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.homepage      = "https://github.com/SecurableIO/Auth-Tool"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
