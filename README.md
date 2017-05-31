@@ -7,13 +7,13 @@ Usage
 ```
 require 'auth_tool'
 
-client = AuthTool::get_client 'twitter'
+client = AuthTool::get_client {secrets hash}
 AuthTool::get_redirect_url client
 
 # receive data from front-end
 
 AuthTool::receive(client,response)
-AuthTool::call(client, "https://api.example.com/endpoint", params)
+AuthTool::call(client, "get" "https://api.example.com/endpoint", params)
 ```
 GET
 ---
