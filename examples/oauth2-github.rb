@@ -6,6 +6,7 @@ get '/' do
 end
 
 get '/callback' do
-  puts AuthTool::receive(client, params)
+  AuthTool::receive(client, params)
+  puts client.to_json
   AuthTool::call(client,"get", "https://api.github.com/user")
 end

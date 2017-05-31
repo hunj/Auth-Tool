@@ -23,15 +23,13 @@ module AuthTool
     #
     # @param [Hash] response
     #   The response to the callback url (authentication token).
-    #
-    # @return [Hash] The access token and refresh token.
     def self.receive(client, response)
       client.signet.code = response["code"] if response.has_key?("code")
       client.signet.code = response[:code] if response.has_key?(:code)
       credentials = {}
       credentials[:access] = (client.signet.fetch_access_token!)["access_token"]
       credentials[:refresh] = client.signet.refresh_token
-      return credentials
+      client.token = credentials
     end
 
     ##

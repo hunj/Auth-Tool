@@ -37,13 +37,11 @@ module AuthTool
     #
     # @param [Hash] response
     #   The response to the callback url (verification information).
-    #
-    # @return [Hash] The access token and token secret.
     def self.receive(client, response)
       verifier = response['oauth_verifier'] if response.has_key?('oauth_verifier')
       verifier = response[:oauth_verifier] if response.has_key?(:oauth_verifier)
       credential = client.signet.fetch_token_credential!(:verifier => verifier)
-      return credential.to_hash
+      client.token = credential.to_hash
     end
 
     ##

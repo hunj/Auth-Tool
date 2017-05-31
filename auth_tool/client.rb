@@ -1,5 +1,6 @@
 require 'signet/oauth_1/client'
 require 'signet/oauth_2/client'
+require 'json'
 
 module AuthTool
   class Client
@@ -8,12 +9,23 @@ module AuthTool
     #
     # @param [Hash] options
     #   Configuration parameters for the client.
-    def initialize(options)
+    def initialize(options, *credentials)
       config = options
       @has_params = config.has_key?('params')
       self.oauth_version = config.delete('oauth_version')
       self.params = config.delete('params') if @has_params
-      @oauth_version == 1 ? oauth1(config) : oauth2(config)
+      if @oauth_version == 1
+        oauth1 config
+        self.signet.token_credential_key = credentials["oauth_token"] if credentials.has_key? "oauth_token"
+        self.signet.token_credential_secret = credentials["oauth_token_secret"] if credentials.has_key? "oauth_token_secret"
+      elsif @oauth_version == 2
+        oauth2 config
+        self.signet.access_token = credentials["oauth_token"] if credentials.has_key? "oauth_token"
+        self.signet.refresh_token = credentials["refresh_token"] if credentialsl.has_key? "refresh_token" 
+      else
+        raise "Unexpected oauth_version: #{@oauth_version}"
+      end
+
     end
 
     def oauth1 config
@@ -28,6 +40,14 @@ module AuthTool
     end
 
     ##
+    # Attempts to refresh the access token of the client
+    def self.refresh
+      raise "Incorrect OAuth Version" if @oauth_version != 2
+      raise "Missing Refresh Token" if self.signet.refresh_token == nil
+      self.signet.refresh!
+    end
+
+    ##
     # Returns the OAuth version for this client.
     #
     # @return [Integer] The OAuth version.
@@ -36,7 +56,7 @@ module AuthTool
     end
 
     ##
-    # Returns the parameters hash for this client
+    # Returns the parameters hash for this client.
     #
     # @return [Hash] The additional parameters.
     def params
@@ -44,13 +64,37 @@ module AuthTool
     end
 
     ##
-    # Returns the signet OAuth object for this client
+    # Returns the signet OAuth object for this client.
     #
     # @return [Signet::OAuth1::Client, Signet::OAuth2::Client] The signet OAuth object.
     def signet
       return @signet
     end
 
+    ##
+    # Returns the final authentication token for the client.
+    #
+    # @return [Hash] The token.
+    def token
+      @token
+    end
+
+    ##
+    # Sets the final authentication token for the client.
+    #
+    # @param [Hash] token
+    #   The hash containing the token & secret or the token and refresh token.
+    def token= token
+      @token = token
+    end
+
+    ##
+    # Returns if the client has additional parameters.
+    #
+    # @return [Boolean] If the client has additional params.
+    def has_params?
+      return @has_params
+    end
     private
     ##
     # Sets the oauth_version for this client.

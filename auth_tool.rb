@@ -24,23 +24,42 @@ module AuthTool
   #
   # @return [String] The redirect url.
   def self.get_redirect_url client
-    redirect_url = client.oauth_version == 1 ? AuthTool::OAuth1.redirect_url(client) : AuthTool::OAuth2.redirect_url(client)
+    params = client.params if client.has_params?
+    params ||= {}
+    redirect_url = client.oauth_version == 1 ? AuthTool::OAuth1.redirect_url(client, params) : AuthTool::OAuth2.redirect_url(client)
     return redirect_url
   end
 
   ##
   # Handles service's user authentication response delivered by the front-end.
-  # Sets the client's access_token and returns it.
+  # Sets the client's access_token.
   #
   # @param [AuthTool::Client] client
   #   The client containing the API information.
   #
   # @param [String] response
   #   The service's response to the callback url
-  #
-  # @return [Hash] Token and secret for OAuth 1 or access token and refresh token for OAuth2.
   def self.receive(client, response)
-    return client.oauth_version == 1 ? AuthTool::OAuth1.receive(client, response) : AuthTool::OAuth2.receive(client,response)
+    client.oauth_version == 1 ? AuthTool::OAuth1.receive(client, response) : AuthTool::OAuth2.receive(client,response)
+  end
+
+  ##
+  # Returns the authentication token information of the client
+  #
+  # @param [AuthTool::Client] client
+  #   The client.
+  #
+  # @return [Hash] The token hash for the client.
+  def self.get_token client
+    return client.token
+  end
+
+  ##
+  # Attempts to refresh the auth token for the client
+  #
+  # @param [AuthTool::Client] client
+  def self.refresh client
+    client.refresh
   end
 
   ##
