@@ -10,9 +10,10 @@ module AuthTool
   #   The client_secrets hash for the API
   #
   # @return [AuthTool::Client] The client.
-  def self.get_client client_secrets
+  def self.get_client(client_secrets, token =  {})
     raise "Expected Hash, received #{client_secrets.class}" if client_secrets.class != Hash
-    client = create_client(client_secrets)
+    client = create_client(client_secrets) if token == {}
+    client = create_client(client_secrets, token) if token != {}
     return client
   end
 
@@ -95,7 +96,12 @@ module AuthTool
   #   Configuration options for the client.
   #
   # @return [AuthTool::Client] New client object
-  def self.create_client options
-    AuthTool::Client.new options
+  def self.create_client(options, *token)
+    
+    if token.length > 0
+      AuthTool::Client.new(options,token[0])
+    else 
+      AuthTool::Client.new(options)
+    end
   end
 end
