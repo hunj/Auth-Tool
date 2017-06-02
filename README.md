@@ -5,7 +5,7 @@ General purpose OAuth tool for API integrations. Utilizes [signet](https://githu
 Usage
 ---
 ```
-require 'auth_tool'
+require 'atuh_tool'
 
 client = AuthTool::get_client {secrets hash}
 AuthTool::get_redirect_url client
