@@ -19,6 +19,7 @@ module AuthTool
       self.params = config.delete('params') if @has_params
       if @oauth_version == 1
         oauth1 config
+        puts 'SSLDKJFKLSDJFKLSDJFKLDSJKLFJDSKLFJDSJFKLDSJFKLDSF'
         self.signet.token_credential_key = credentials["oauth_token"] if credentials.has_key? "oauth_token"
         self.signet.token_credential_secret = credentials["oauth_token_secret"] if credentials.has_key? "oauth_token_secret"
       elsif @oauth_version == 2
