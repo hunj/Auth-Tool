@@ -53,7 +53,21 @@ module AuthTool
       body = params.delete('body') if params.has_key? 'body'
       conn = Faraday.new(:params => params)
       options = {:method => http_verb, :header => header, :body => body, :uri => uri, :connection => conn}
-      response = client.signet.fetch_protected_resource(options)
+      
+
+      # handle faraday's 401 error
+      begin
+        response = client.signet.fetch_protected_resource(options)
+      rescue
+        client.refresh
+      end
+
+      begin
+        response = client.signet.fetch_protected_resource(options)
+      rescue
+        p 'fetch_protected_resource failed'
+      end
+
       return JSON.parse(response.body)
     end
   end
