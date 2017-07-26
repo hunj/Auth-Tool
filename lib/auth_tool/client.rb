@@ -4,6 +4,9 @@ require 'json'
 
 module AuthTool
   class Client
+    attr_reader :oauth_version, :params
+    attr_accessor :signet, :token
+    
     ##
     # Creates either a signet OAuth 1.0 or 2.0 client with additional params.
     #
@@ -52,53 +55,13 @@ module AuthTool
     end
 
     ##
-    # Returns the OAuth version for this client.
-    #
-    # @return [Integer] The OAuth version.
-    def oauth_version
-      return @oauth_version
-    end
-
-    ##
-    # Returns the parameters hash for this client.
-    #
-    # @return [Hash] The additional parameters.
-    def params
-      return @params
-    end
-
-    ##
-    # Returns the signet OAuth object for this client.
-    #
-    # @return [Signet::OAuth1::Client, Signet::OAuth2::Client] The signet OAuth object.
-    def signet
-      return @signet
-    end
-
-    ##
-    # Returns the final authentication token for the client.
-    #
-    # @return [Hash] The token.
-    def token
-      @token
-    end
-
-    ##
-    # Sets the final authentication token for the client.
-    #
-    # @param [Hash] token
-    #   The hash containing the token & secret or the token and refresh token.
-    def token= token
-      @token = token
-    end
-
-    ##
     # Returns if the client has additional parameters.
     #
     # @return [Boolean] If the client has additional params.
     def has_params?
       return @has_params
     end
+    
     private
     ##
     # Sets the oauth_version for this client.
@@ -110,6 +73,7 @@ module AuthTool
       raise "OAuth Version must be 1 or 2" unless oauth_version.to_i == 1 || oauth_version.to_i == 2
       @oauth_version = oauth_version.to_i
     end
+    
     ##
     # Sets the parameters hash for this client.
     #
@@ -118,15 +82,6 @@ module AuthTool
     def params=(params)
       raise "Expected Hash, got #{params.class}." unless params.is_a? Hash
       @params = params
-    end
-
-    ##
-    # Sets the signet OAuth client for this client.
-    #
-    # @param [Signet::OAuth1::Client, Signet::OAuth2::Client] signet
-    #   The signet client object.
-    def signet=(signet)
-      @signet = signet
     end
   end
 end
